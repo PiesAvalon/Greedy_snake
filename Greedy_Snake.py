@@ -1,3 +1,9 @@
+'''
+Greedy_Snake.py 1.2版本
+***增加了难度选择
+***优化了部分代码
+***修正了蛇向前时按下相反键会撞到自己的bug
+'''
 from random import randrange
 from turtle import *
 from time import sleep
@@ -15,7 +21,7 @@ n = 0
 m = 0
 crush = 0
 inp = 0
-
+speed = 100
 def snakecrush():
     for crush in range(len(Snake)-1):
        if Snake[-1] == Snake[crush]:
@@ -36,13 +42,15 @@ def inside2():
     
 def change(x,y):
     global moveX,moveY
-    moveX = x
-    moveY = y 
+    if moveX != x and moveY != -y:
+        moveX = x
+        moveY = y 
 
 def change2(x,y):
     global moveX2,moveY2
-    moveX2 = x
-    moveY2 = y
+    if moveX2 != x and moveY2 != -y:
+        moveX2 = x
+        moveY2 = y
 
 def GameLoop():
     global X,Y
@@ -63,7 +71,7 @@ def GameLoop():
     for n in range(len(Snake)):
         square(Snake[n][0],Snake[n][1],10,"blue")
         n = n+1
-    ontimer(GameLoop,100)
+    ontimer(GameLoop,speed)
 
 def GameLoop2():
     global X,Y
@@ -80,16 +88,16 @@ def GameLoop2():
     for m in range(len(Snake2)):
         square(Snake2[m][0],Snake2[m][1],10,"red")
         m = m+1
-    ontimer(GameLoop2,100)
+    ontimer(GameLoop2,speed)
 
-inp = input("单人版请输入'1'，双人版请输入'2':")
-if inp == '1':
-    setup(420,420,0,0)
-    GameLoop()
-elif inp == '2':
-    setup(420,420,0,0)
-    GameLoop()
+inp = input("单人版(W A S D)请输入'1'，双人版(I J K L)请输入'2':")
+speed = int(input("速度选择(50快 100中速 200慢):"))
+setup(420,420,0,0)
+GameLoop()
+
+if inp == '2':
     GameLoop2()
+
 listen()
 onkey(lambda: change(0,10),"w")
 onkey(lambda: change(-10,0),"a")
